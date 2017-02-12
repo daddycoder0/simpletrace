@@ -1,0 +1,117 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<materials>
+  <material name='red'>
+    <colour>1.0 0.2 0.2</colour>
+  </material>
+  <material name='blue'>
+    <colour>0.2 0.2 1.0</colour>
+  </material>
+  <material name='green'>
+    <colour>0.2 1.0 0.2</colour>
+  </material>
+  <material name='white'>
+    <colour>0.7 0.7 0.7</colour>
+  </material>
+  <material name='yellow'>
+    <colour>0.8 0.8 0.5</colour>
+  </material>
+  <material name='brightyellow'>
+    <colour>1.0 1.0 0.3</colour>
+  </material>
+  <material name='bright_light'>
+    <colour>0.7 0.7 0.7</colour>
+  </material>
+</materials>
+<objects>
+  <object name='plane' type='simplemesh'>
+   <verts>-1.0 0.0 -1.0,1.0 0.0 -1.0, 1.0 0.0 1.0, -1.0 0.0 1.0</verts>
+   <tris>0 2 1, 2 0 3</tris>
+  </object>
+  <object name='cube' type='simplemesh'>
+    <verts>
+      -0.25 0.5 -0.25, 0.25 0.5 -0.25, 0.25 0.5 0.25, -0.25 0.5 0.25
+      -0.25 0.0 -0.25, 0.25 0.0 -0.25, 0.25 0.0 0.25, -0.25 0.0 0.25
+    </verts>
+    <tris>0 2 1, 2 0 3, 4 5 6, 6 7 4, 1 2 5, 5 2 6, 6 2 7, 7 2 3, 7 3 0, 7 0 4, 4 0 5, 5 0 1</tris>
+  </object>
+  <object name='tallbox' type='simplemesh'>
+    <verts>
+      -0.25 1.0 -0.25, 0.25 1.0 -0.25, 0.25 1.0 0.25, -0.25 1.0 0.25
+      -0.25 0.0 -0.25, 0.25 0.0 -0.25, 0.25 0.0 0.25, -0.25 0.0 0.25
+    </verts>
+    <tris>0 2 1, 2 0 3, 4 5 6, 6 7 4, 1 2 5, 5 2 6, 6 2 7, 7 2 3, 7 3 0, 7 0 4, 4 0 5, 5 0 1</tris>
+  </object>
+  <object name='squarelight' type='simplemesh'>
+    <verts>-0.05 0.0 -0.05,0.05 0.0 -0.05, 0.05 0.0 0.05, -0.05 0.0 0.05</verts>
+    <tris>0 2 1, 2 0 3</tris>
+  </object>
+</objects>
+<scene>
+  <inst type='simplemesh' obj='squarelight' material='bright_light' light='diffuse'>
+    <matrix>
+      <rot>0.0 0.0 180.0</rot>
+      <pos>0.0 0.99 0.0</pos>
+    </matrix>
+  </inst>
+
+  <inst type='simplemesh' obj='cube' material='green'>
+    <matrix>
+      <rot>0.0 45.0 0.0</rot>
+      <pos>0.1 -1.0 0.5</pos>
+    </matrix>
+  </inst>
+
+  <inst type='simplemesh' obj='tallbox' material='brightyellow'>
+    <matrix>
+      <rot>0.0 30.0 0.0</rot>
+      <pos>-0.3 -1.0 -0.4</pos>
+    </matrix>
+  </inst>
+  
+  <inst type='simplemesh' obj='plane' material='yellow'>
+    <matrix>
+      <rot>0.0 0.0 0.0</rot>
+      <pos>0.0 -1.0 0.0</pos>
+    </matrix>
+ </inst>
+ 
+  <inst type='simplemesh' obj='plane' material='yellow'>
+    <matrix>
+      <rot>0.0 0.0 180.0</rot>
+      <pos>0.0 1.0 0.0</pos>
+    </matrix>
+  </inst>
+
+
+  <inst type='simplemesh' obj='plane' material='white'>
+    <matrix>
+      <rot>0.0 0.0 90.0</rot>
+      <pos>-1.0 0.0 0.0</pos>
+    </matrix>
+  </inst>
+
+  <inst type='simplemesh' obj='plane' material='blue'>
+    <matrix>
+      <rot>-90.0 0.0 0.0</rot>
+      <pos>0.0 0.0 -1.0</pos>
+    </matrix>
+  </inst>
+
+  <inst type='simplemesh' obj='plane' material='red'>
+    <matrix>
+      <rot>90.0 0.0 0.0</rot>
+      <pos>0.0 0.0 1.0</pos>
+    </matrix>
+  </inst>
+
+
+  <inst type='camera' fov='55.0' nearz ='0.1'>
+    <eye>3.0 0.5 0.0</eye>
+    <target>0.0 0.0 0.0</target>
+  </inst>
+
+  <ambient>
+    <colour>0.2 0.2 0.2</colour>
+  </ambient>
+
+</scene>
