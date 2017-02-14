@@ -48,4 +48,13 @@ I'm sure there's plenty more problems! :)
 
 ## Ideas
 
-I have lots of ideas I'd love to implement which I'll stick here shortly.
+
+As mentioned above, I was making most progress by working in Windows and then compiling/running on the pi later via terminal. Something I have done previously when having to frequently re-run the same commands on similar systems, is write a basic web server (I would normally use [cherrypy](http://cherrypy.org/)) which will execute the commands on request via a basic web interface (and pipe the console log back to the page). If we're getting really fancy, the same server could read in the scene file itself, and then put a realtime view of the scene up in the browser using something like [threejs](https://threejs.org/)!
+
+I'm only typically rendering one image at a time (although multiple cameras can be added to the scene file and it should render them all). However, it would be cool, in order to aid the generation of many images (perhaps for an animated camera path), or even just to divide the labour of a large/complex render, to have a basic master and agent services to allow basic render farming. Would be pretty trivial to implement.
+
+It would be nice to add support for more sophisticated scenes - perhaps loading models straight from 3DS or FBX files (and all the texturing desirable with that also). Of course more geometry means more CPU work, but perhaps the increased complexity could be offset by some spatial partitioning to speed up the tracing.
+
+I think that's part of the fun of ray tracing - there are lots of little things that can be done as quick projects - reflections/refraction, soft shadows, animation, better illumination, parametric surfaces, etc. etc.
+
+There just isn't enough hours in the day :)
