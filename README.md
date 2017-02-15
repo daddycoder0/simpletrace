@@ -41,7 +41,6 @@ to allow me to pull the image remotely through a browser. This all meant that I 
 Its been nearly two years since I did any work on this, but I've spotted a few issues:
 
 * The code for deleting threads is commented out with some note about investigating later - I can't remember if this problem was limited to running on the pi or also a problem in windows.
-* As I'm making these notes, I've just compiled the project in MSVS 14 and there's a bunch of warnings - I'm sure when I was originally writing this (perhaps in MSVS 10), it was compiling without warnings.
 * There's absolutely no sanity checking on the command line args, so if you pass in garbage it just dies.
 
 I'm sure there's plenty more problems! :)
