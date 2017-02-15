@@ -19,7 +19,7 @@ bool Vector3::Parse(rapidxml::xml_node<>* n, char* sp, int spSize)
 {
 	if (n)
 	{
-		if (strlen(n->value()) >= spSize)
+		if ((int)strlen(n->value()) >= spSize)
 		{
 			cout << "Very bad vector input: " << n->name() << endl;
 			Set(0);
@@ -98,7 +98,7 @@ bool Matrix4::Parse(xml_node<>* n, char* sp, int spSize)
 			char* context = NULL;
 			n = n->first_node("posrot");
 			unsigned int numElements = 0;
-			if (strlen(n->value()) >= spSize)
+			if ((int)strlen(n->value()) >= spSize)
 			{
 				cout << "Very bad matrix input: " << n->name() << endl;
 				SetToIdentity();

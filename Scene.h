@@ -24,25 +24,25 @@ class Scene
 						{
 							m_lights.clear();
 
-							for ( int i = 0; i < m_objects.size(); i++ ) 
+							for ( unsigned int i = 0; i < m_objects.size(); i++ ) 
 							{
 								delete m_objects[i];
 							}
 							m_objects.clear();
 
-							for ( int i = 0; i < m_instances.size(); i++ ) 
+							for ( unsigned int i = 0; i < m_instances.size(); i++ )
 							{
 								delete m_instances[i];
 							}
 							m_instances.clear();
 
-							for ( int i = 0; i < m_cameras.size(); i++ ) 
+							for ( unsigned int i = 0; i < m_cameras.size(); i++ )
 							{
 								delete m_cameras[i];
 							}
 							m_cameras.clear(); 
 
-							for ( int i = 0; i < m_materials.size(); i++ ) 
+							for ( unsigned int i = 0; i < m_materials.size(); i++ )
 							{
 								delete m_materials[i];
 							}

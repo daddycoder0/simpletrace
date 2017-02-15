@@ -30,11 +30,11 @@ int main(int argc, char * argv[])
 	if (file.is_open())
 	{
 		streampos size = file.tellg();
-		fileData = new char [int(size)+1];
+		fileData = new char [unsigned int(size)+1];
 		file.seekg (0, ios::beg);
 		file.read (fileData, size);
 		file.close();
-		fileData[size] = 0;
+		fileData[unsigned int(size)] = 0;
 	}
 	
 	Scene s;
@@ -54,9 +54,9 @@ int main(int argc, char * argv[])
 	delete[] fileData;
 	
 
-	int width = argc > 3 ? atoi(argv[2]) : 400;
-	int height = argc > 3 ? atoi(argv[3]) : 300;
-	int superSample = argc > 4 ? atoi(argv[4]) : 2;
+	int width = argc > 3 ? atoi(argv[2]) : 800;
+	int height = argc > 3 ? atoi(argv[3]) : 600;
+	int superSample = argc > 4 ? atoi(argv[4]) : 4;
 
 	s.Render(width, height, superSample);
 

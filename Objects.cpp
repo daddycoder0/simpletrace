@@ -18,7 +18,7 @@ bool SimpleMesh::Parse(xml_node<>* node, char* spad, int spSize)
 
 	if (n)
 	{
-		if (strlen(n->value()) >= spSize)
+		if ((int)strlen(n->value()) >= spSize)
 		{
 			cout << "Object vert list too big for scratch pad: " << m_objectName << endl;
 			return false;	
@@ -68,7 +68,7 @@ bool SimpleMesh::Parse(xml_node<>* node, char* spad, int spSize)
 	n = node->first_node("tris");
 	if (n)
 	{
-		if (strlen(n->value()) >= spSize)
+		if ((int)strlen(n->value()) >= spSize)
 		{
 			cout << "Object triangle list too big for scratch pad: " << m_objectName << endl;
 			return false;	
