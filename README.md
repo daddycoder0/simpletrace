@@ -40,7 +40,6 @@ to allow me to pull the image remotely through a browser. This all meant that I 
 
 Its been nearly two years since I did any work on this, but I've spotted a few issues:
 
-* The code for deleting threads is commented out with some note about investigating later - I can't remember if this problem was limited to running on the pi or also a problem in windows.
 * There's absolutely no sanity checking on the command line args, so if you pass in garbage it just dies.
 
 I'm sure there's plenty more problems! :)
