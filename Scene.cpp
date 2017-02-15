@@ -247,7 +247,8 @@ bool Scene::Render(int width, int height, int superSample, int startX, int endX,
 		for (int t=0; t<numThreads; t++)
 		{
 			m_numActiveThreads++;
-			threads[activeThreads] = new tthread::thread(ThreadRender, (void*)&paramList[activeThreads++]);
+			threads[activeThreads] = new tthread::thread(ThreadRender, (void*)&paramList[activeThreads]);
+			activeThreads++;
 		}
 
 		while (m_numActiveThreads > 0)
@@ -255,10 +256,14 @@ bool Scene::Render(int width, int height, int superSample, int startX, int endX,
 			CPSleep(10);
 		}
 
-/*		for (int t=0;t<activeThreads;t++)
+		for (int t=0;t<activeThreads;t++)
 		{
-			delete threads[t];	// need to look into this
-		}*/
+			if (threads[t]->joinable())
+			{
+				threads[t]->join();
+			}
+			delete threads[t];
+		}
 
 		char fileName[64];
 		snprintf(fileName, 64, "camera%03d.bmp", i);
