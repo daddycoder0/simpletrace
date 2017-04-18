@@ -47,7 +47,7 @@ int main(int argc, char * argv[])
 	}
 	else
 	{
-		cout << "Finished reading scene:\n\n " << s.LogInfo() << sizeof(long) << endl;
+		cout << "Finished reading scene:\n\n " << s.LogInfo() << endl;
 	}
 	
 	free(sp);
