@@ -22,7 +22,7 @@ class Object
 	public:
 			Object(const char* name)
 			{
-				snprintf(m_objectName, OBJECT_MAX_NAMELENGTH, name);
+				snprintf(m_objectName, OBJECT_MAX_NAMELENGTH, "%s", name);
 			}
 			virtual ~Object				()										{}
 

@@ -30,11 +30,11 @@ int main(int argc, char * argv[])
 	if (file.is_open())
 	{
 		streampos size = file.tellg();
-		fileData = new char [unsigned int(size)+1];
+		fileData = new char [(unsigned int)size+1];
 		file.seekg (0, ios::beg);
 		file.read (fileData, size);
 		file.close();
-		fileData[unsigned int(size)] = 0;
+		fileData[(unsigned int)size] = 0;
 	}
 	
 	Scene s;
@@ -47,7 +47,7 @@ int main(int argc, char * argv[])
 	}
 	else
 	{
-		cout << "Finished reading scene:\n\n " << s.LogInfo() << endl;
+		cout << "Finished reading scene:\n\n " << s.LogInfo() << sizeof(long) << endl;
 	}
 	
 	free(sp);
