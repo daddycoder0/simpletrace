@@ -53,6 +53,20 @@ bool Scene::ParseInput(char* input, char* scratchPad, int spSize)
 				m_objects.push_back(sm);
 			}
 		}
+	
+		else if (strcmp(attr->value(), "sphere") == 0)
+		{
+			attr = nd->first_attribute("name");
+			Sphere* sphere = new Sphere(attr ? attr->value() : "unknown");
+			if (!sphere->Parse(nd, scratchPad, spSize))
+			{
+				delete sphere;
+			}
+			else
+			{
+				m_objects.push_back(sphere);
+			}
+		}
 		else
 		{
 			cout << "Unknown object type: " << attr->value() << endl;
@@ -83,7 +97,7 @@ bool Scene::ParseInput(char* input, char* scratchPad, int spSize)
 			}
 			else	
 			{
-				if (strcmp(attr->value(), "simplemesh") == 0)
+				if (strcmp(attr->value(), "simplemesh") == 0 || strcmp(attr->value(), "sphere") == 0)
 				{
 					attr = nd->first_attribute("obj");
 

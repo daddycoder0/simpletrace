@@ -31,11 +31,29 @@ class Object
 			bool Is						(char* name)							{return strcmp(m_objectName, name) == 0;}
 			virtual float RayIntersects	(Vector3& start, Vector3& dir, unsigned int& triangleIndex, bool bfcull = true) = 0;
 			virtual void GetColourForIntersection(	Vector3& start, Vector3& dir, float t, Instance* inst, unsigned int triangleIndex, Vector3& colOut, 
-													Vector3& ambientLight, vector<Instance*>* lights, Material* material, Matrix4& transform, Scene& scene)=0;
-
+													Vector3& ambientLight, vector<Instance*>* lights, Material* material, Matrix4& transform, Scene& scene);
+			virtual void GetIntersectionNormal(Vector3& start, Vector3& dir, Vector3& normal, unsigned int triangleIndex, float t, Matrix4& transform)=0;
 
 	protected:
 		char	m_objectName[OBJECT_MAX_NAMELENGTH];
+};
+
+class Sphere : public Object
+{
+	public:
+	
+		Sphere(const char* name) : Object(name){
+			m_radius = 0.5f;
+		}
+		
+
+		bool	Parse			(xml_node<>* node, char* sp, int spSize);
+		float	RayIntersects	(Vector3& start, Vector3& dir, unsigned int& triangleIndex, bool bfcull = true);
+		void	GetIntersectionNormal(Vector3& start, Vector3& dir, Vector3& normal, unsigned int triangleIndex, float t, Matrix4& transform);
+		
+	private:
+	
+		float	m_radius;
 };
 
 class SimpleMesh : public Object
@@ -62,9 +80,8 @@ class SimpleMesh : public Object
 
 		bool	Parse			(xml_node<>* node, char* sp, int spSize);
 		float	RayIntersects	(Vector3& start, Vector3& dir, unsigned int& triangleIndex, bool bfcull = true);
-		void	GetColourForIntersection(	Vector3& start, Vector3& dir, float t, Instance* inst, unsigned int triangleIndex, Vector3& colOut, 
-											Vector3& ambientLight, vector<Instance*>* lights, Material* material, Matrix4& transform, Scene& scene);
-
+		void 	GetIntersectionNormal(Vector3& start, Vector3& dir, Vector3& normal, unsigned int triangleIndex, float t, Matrix4& transform);
+		
 	private:
 
 		void SetNumVerts(unsigned int num)

@@ -45,6 +45,9 @@
     <verts>-0.05 0.0 -0.05,0.05 0.0 -0.05, 0.05 0.0 0.05, -0.05 0.0 0.05</verts>
     <tris>0 2 1, 2 0 3</tris>
   </object>
+  <object name='ball' type='sphere'>
+	<radius>0.2</radius>
+  </object>
 </objects>
 <scene>
   <inst type='simplemesh' obj='squarelight' material='bright_light' light='diffuse'>
@@ -104,6 +107,13 @@
     </matrix>
   </inst>
 
+  <inst type='sphere' obj='ball' material='white'>
+    <matrix>
+      <rot>0.0 0.0 0.0</rot>
+      <pos>-0.4 0.5 0.4</pos>
+    </matrix>
+  </inst>
+
 
   <inst type='camera' fov='55.0' nearz ='0.1'>
     <eye>3.0 0.5 0.0</eye>
@@ -111,7 +121,7 @@
   </inst>
 
   <ambient>
-    <colour>0.2 0.2 0.2</colour>
+    <colour>0.25 0.25 0.25</colour>
   </ambient>
 
 </scene>

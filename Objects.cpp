@@ -10,6 +10,48 @@
 
 using namespace std;
 
+
+bool Sphere::Parse(xml_node<>* node, char* spad, int spSize)
+{
+	xml_node<>* n = node->first_node("radius");
+	if (n)
+	{
+		snprintf(spad, spSize, n->value());
+		m_radius = (float)atof(spad);
+	}
+
+	return true;
+}
+
+float Sphere::RayIntersects	(Vector3& start, Vector3& dir, unsigned int& triangleIndex, bool bfcull)
+{
+	// http://www.ccs.neu.edu/home/fell/CSU540/programs/RayTracingFormulas.htm
+	float a = dir.m_x*dir.m_x + dir.m_y*dir.m_y + dir.m_z*dir.m_z;
+	float b = 2*dir.m_x*(start.m_x) +  2*dir.m_y*(start.m_y) +  2*dir.m_z*(start.m_z);
+	float c = (start.m_x*start.m_x + start.m_y*start.m_y + start.m_z*start.m_z) - m_radius*m_radius;
+	
+	float delta = (b*b)-4*a*c;
+	if (delta > 0)
+	{
+		float d1=(-b-sqrtf(delta))/(2*a);
+		//float d2=(-b+sqrtf(delta))/(2*a);
+		
+		return d1;// < d2 ? d1 : d2;
+	}
+	return -1.0f;
+}
+
+void Sphere::GetIntersectionNormal(Vector3& start, Vector3& dir, Vector3& normal, unsigned int triangleIndex, float t, Matrix4& transform)
+{
+	Vector3 scaledDir;
+	scaledDir.Mul(dir, t);
+	Vector3 intPos = start + scaledDir;
+	Vector3 pos = transform.Pos();
+	normal.Sub(intPos, pos);
+	normal.Normalize();
+}
+
+
 bool SimpleMesh::Parse(xml_node<>* node, char* spad, int spSize)
 {
 	xml_node<>* n = node->first_node("verts");
@@ -176,11 +218,9 @@ int triangle_intersection(	const Vector3&  V1,
 
 float SimpleMesh::RayIntersects(Vector3& start, Vector3& dir, unsigned int& triangleIndex, bool bfcull)
 {
-	// needs to go through all triangles, and find nearest hit, for now, any hit will do.
 	float t = -1.f;
 
 	float nearestT = -1.f;
-	unsigned int nearestIndex = -1;
 
 	for (unsigned int i=0;i<m_numTriangles;i++)
 	{
@@ -193,7 +233,7 @@ float SimpleMesh::RayIntersects(Vector3& start, Vector3& dir, unsigned int& tria
 		{
 			if (nearestT < 0.f || t < nearestT)
 			{
-				nearestIndex = i;
+				triangleIndex = i;
 				nearestT = t;
 			}
 		}
@@ -202,7 +242,15 @@ float SimpleMesh::RayIntersects(Vector3& start, Vector3& dir, unsigned int& tria
 	return t;
 }
 
-void SimpleMesh::GetColourForIntersection(Vector3& start, Vector3& dir, float t, Instance* inst, unsigned int triangleIndex, Vector3& colOut, Vector3& ambientLight, vector<Instance*>* lights, Material* material, Matrix4& transform, Scene& scene)
+void SimpleMesh::GetIntersectionNormal(Vector3& start, Vector3& dir, Vector3& normal, unsigned int triangleIndex, float t, Matrix4& transform)
+{
+	Matrix4 trans = transform;
+	trans.SetPos(0.f, 0.f, 0.f);
+	normal = trans.Transform(m_faceNormals[triangleIndex]);
+	normal.Normalize();
+}
+
+void Object::GetColourForIntersection(Vector3& start, Vector3& dir, float t, Instance* inst, unsigned int triangleIndex, Vector3& colOut, Vector3& ambientLight, vector<Instance*>* lights, Material* material, Matrix4& transform, Scene& scene)
 {
 	Vector3 matCol(1.f, 0.f, 1.f);
 	Vector3 finalCol;
@@ -215,10 +263,8 @@ void SimpleMesh::GetColourForIntersection(Vector3& start, Vector3& dir, float t,
 	}
 
 	finalCol = matCol * ambientLight;
-	Matrix4 trans = transform;
-	trans.SetPos(0.f, 0.f, 0.f);
-	Vector3 normal = trans.Transform(m_faceNormals[triangleIndex]);
-	normal.Normalize();
+	Vector3 normal;
+	GetIntersectionNormal(start, dir, normal, triangleIndex, t, transform);
 
 	for (unsigned int i=0;lights && i<lights->size(); i++)
 	{
