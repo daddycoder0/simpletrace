@@ -2,7 +2,7 @@
 #include <iomanip>
 #include <string.h>
 #include <time.h>
-#ifdef WIN32
+#if defined _WIN32
 	#include <Windows.h>
 	#define CPSleep(a) Sleep(a)
 #else
