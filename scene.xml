@@ -11,6 +11,10 @@
   </material>
   <material name='white'>
     <colour>0.7 0.7 0.7</colour>
+  </material> 
+  <material name='shiney'>
+	<colour>1.0 1.0 1.0</colour>
+    <reflectivity>0.8</reflectivity>
   </material>
   <material name='yellow'>
     <colour>0.8 0.8 0.5</colour>
@@ -46,7 +50,7 @@
     <tris>0 2 1, 2 0 3</tris>
   </object>
   <object name='ball' type='sphere'>
-	<radius>0.2</radius>
+	<radius>0.3</radius>
   </object>
 </objects>
 <scene>
@@ -107,10 +111,10 @@
     </matrix>
   </inst>
 
-  <inst type='sphere' obj='ball' material='white'>
+  <inst type='sphere' obj='ball' material='shiney'>
     <matrix>
       <rot>0.0 0.0 0.0</rot>
-      <pos>-0.4 0.5 0.4</pos>
+      <pos>-0.45 0.0 0.45</pos>
     </matrix>
   </inst>
 

@@ -15,11 +15,13 @@ public:
 	bool			Parse					(xml_node<>* node, char* sp, int spSize);
 	bool Is			(char* name)			{return strcmp(m_name, name) == 0;}
 	void			GetColour(Vector3& out) {out = m_baseColour;}
+	float			GetReflectivity()		{return m_reflectivity;}
 
 private:
 	
 	char			m_name[MATERIAL_MAX_NAMELENGTH];
 	Vector3			m_baseColour;
+	float			m_reflectivity;
 };
 
 #endif

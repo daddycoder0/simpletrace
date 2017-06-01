@@ -254,12 +254,14 @@ void Object::GetColourForIntersection(Vector3& start, Vector3& dir, float t, Ins
 {
 	Vector3 matCol(1.f, 0.f, 1.f);
 	Vector3 finalCol;
-	Vector3 intersection = dir * t;
-	intersection.Add(intersection, start);
-
+	Vector3 intersect = dir * t;
+	Vector3 intersection;
+	intersect.Add(intersect, start);
+	float reflectivity = 0.f;
 	if (material)
 	{
 		material->GetColour(matCol);
+		reflectivity = material->GetReflectivity();
 	}
 
 	finalCol = matCol * ambientLight;
@@ -271,13 +273,13 @@ void Object::GetColourForIntersection(Vector3& start, Vector3& dir, float t, Ins
 		Vector3 lightPos, vecToLight;
 		lights->at(i)->GetPos(lightPos);
 
-		vecToLight = vecToLight.Sub(lightPos, intersection);
+		vecToLight = vecToLight.Sub(lightPos, intersect);
 		float distToLight = vecToLight.Length();
 		vecToLight.Normalize();
 
 		Instance* shadowInstance = NULL;
 		unsigned int tIndex = 0;
-		intersection = intersection.Add(intersection, vecToLight * 0.001f);	// make sure we don't hit ourselves.
+		intersection = intersection.Add(intersect, vecToLight * 0.001f);	// make sure we don't hit ourselves.
 
 		float shadowT = inst == lights->at(i) ? -1.f : scene.GetNearestIntersection(intersection, vecToLight, shadowInstance, tIndex, false);
 		
@@ -299,6 +301,28 @@ void Object::GetColourForIntersection(Vector3& start, Vector3& dir, float t, Ins
 		}
 	}
 
+	if (reflectivity > 0)
+	{
+		Vector3 rVec = dir;
+		Vector3 rColour(0.f, 0.f, 0.f);
+		rVec.Reflect(normal);
+		Instance* inst;
+		unsigned int tIndex;
+		intersection = intersection.Add(intersect, rVec * 0.0001f);	// make sure we don't hit ourselves.
+
+		float t = scene.GetNearestIntersection(intersection, rVec, inst, tIndex);
+
+		if (t >= 0.f)
+		{
+			scene.GetColourForIntersection(intersection, rVec, t, inst, tIndex, rColour);
+			finalCol = finalCol.Add(finalCol * (1.0f - reflectivity), rColour * reflectivity);
+		}
+		else
+		{
+			finalCol = finalCol * (1.0f - reflectivity);
+		}
+
+	}
 	
 	colOut.m_x = finalCol.m_x < 1.f ? finalCol.m_x : 1.f;
 	colOut.m_y = finalCol.m_y < 1.f ? finalCol.m_y : 1.f;

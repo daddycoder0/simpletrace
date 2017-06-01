@@ -58,7 +58,8 @@ class Scene
 
 		bool			Render							(int width = 400, int height = 300, int superSample = 1, int startX = 0, int endX = -1, int startY = 0, int endY = -1);
 		float			GetNearestIntersection			(Vector3& start, Vector3& dir, Instance*& instance, unsigned int& triangleIndex, bool bfcull = true);
-	
+		void			GetColourForIntersection		(Vector3& start, Vector3& dir, float t, Instance* instance, unsigned int triangleIndex, Vector3& colOut);
+
 		struct RenderParams_s
 		{
 			RenderParams_s(){}
@@ -81,8 +82,6 @@ class Scene
 		bool			Render							(RenderParams_s& params);
 
 	private:
-
-		void			GetColourForIntersection		(Vector3& start, Vector3& dir, float t, Instance* instance, unsigned int triangleIndex, Vector3& colOut);
 
 		vector<Object*>				m_objects;
 		vector<Instance*>			m_lights;

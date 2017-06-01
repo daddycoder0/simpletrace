@@ -87,6 +87,15 @@ public:
 		return *this;
 	}
 
+	inline Vector3 Reflect(const Vector3& normal)
+	{
+		Vector3 n;
+		real dp = this->m_x * normal.m_x + this->m_y * normal.m_y + this->m_z * normal.m_z;
+		n.Mul(normal, -2 * dp);
+		*this = *this + n;
+		return *this;
+	}
+
 	inline Vector3 Lerp( const Vector3& v1, const Vector3 v2, float t )
 	{
 		Vector3 temp;
@@ -290,7 +299,7 @@ inline real DotProduct( const Vector3 &vec1, const Vector3 &vec2 )
 
 char* strtk(char* tok, char** context);
 
-#ifdef WIN32
+#ifdef _WIN32
 	#define snprintf sprintf_s	// these aren't quite the same but for the benefit of working on linux and windows, should be sufficient
 #endif
 
