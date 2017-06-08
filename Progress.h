@@ -4,7 +4,7 @@
 class Progress
 {
 	public:
-		Progress(char * name)
+		Progress(const char * name)
 		{
 			m_name = name;
 			m_progress = 0.f;
@@ -32,7 +32,7 @@ class Progress
 	private:
 
 		float m_progress;
-		char* m_name;
+		const char* m_name;
 
 };
 #endif
