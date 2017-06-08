@@ -77,6 +77,7 @@ class Scene
 			int cameraIndex;
 			Image* outImage;
 			Scene* scene;
+			int progress;
 		};
 
 		bool			Render							(RenderParams_s& params);

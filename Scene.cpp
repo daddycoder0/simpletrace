@@ -16,6 +16,9 @@
 #include "Image.h"
 #include "Instance.h"
 #include "Scene.h"
+#include "Progress.h"
+
+const unsigned int MAX_THREADS = 32;
 
 void ThreadRender(void* params)
 {
@@ -240,13 +243,14 @@ bool Scene::Render(int width, int height, int superSample, int startX, int endX,
 	int viewW = endX-startX;
 	int viewH = endY-startY;
 	const int bpp = 3;
+	unsigned int totalPixPerImage = width * height;
 
-	int numThreads = tthread::thread::hardware_concurrency() <= 32 ? tthread::thread::hardware_concurrency() : 32;
-
-	Image outImage(viewW, viewH, bpp);
+	int numThreads = tthread::thread::hardware_concurrency() <= MAX_THREADS ? tthread::thread::hardware_concurrency() : MAX_THREADS;
 
 	for (unsigned int i=0;i<m_cameras.size();i++)
 	{
+		Image outImage(viewW, viewH, bpp);
+
 		time_t start,end;
 		time(&start);
 		m_cameras[i]->Prime((float)height/float(width));
@@ -272,10 +276,12 @@ bool Scene::Render(int width, int height, int superSample, int startX, int endX,
 		params.outImage = &outImage;
 		params.scene = this;
 		params.cameraIndex = i;
+		params.progress = 0;
 		
 
-		tthread::thread* threads[32];
-		RenderParams_s paramList[32];
+
+		tthread::thread* threads[MAX_THREADS];
+		RenderParams_s paramList[MAX_THREADS];
 		
 		for (int t=0; t<numThreads; t++)
 		{
@@ -295,10 +301,18 @@ bool Scene::Render(int width, int height, int superSample, int startX, int endX,
 			activeThreads++;
 		}
 
+		Progress p = Progress("Rendering");
 		while (m_numActiveThreads > 0)
 		{
-			CPSleep(10);
+			unsigned int prog = 0;
+			for (int t = 0;t < numThreads;t++)
+			{
+				prog = prog + paramList[t].progress;
+			}
+			p.UpdateProgress((float)prog / (float)totalPixPerImage);
+			CPSleep(50);
 		}
+		p.UpdateProgress(1.f);
 
 		for (int t=0;t<activeThreads;t++)
 		{
@@ -352,6 +366,7 @@ bool Scene::Render(RenderParams_s& params)
 			}
 				
 			params.outImage->SetPixelColour(params.xOut++, params.yOut, colTotal.m_x/ss, colTotal.m_y/ss, colTotal.m_z/ss);
+			params.progress++;
 		}
 
 		params.xOut = 0;
