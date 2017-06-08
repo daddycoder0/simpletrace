@@ -26,10 +26,29 @@ bool Scene::ParseInput(char* input, char* scratchPad, int spSize)
 {
 	using namespace rapidxml;
 	xml_document<> doc;    // character type defaults to char
-	doc.parse<0>(input);    // 0 means default parse flags
- 
+	
+	try
+	{
+		doc.parse<0>(input);    // 0 means default parse flags
+	}
+	catch (const rapidxml::parse_error& e)
+	{
+		cout << "Problem with input: " << e.what() << endl;
+		return false;
+	}
+	catch (...)
+	{
+		cout << "Unknown error parsing input file" << endl;
+		return false;
+	}
+
 	xml_node<> *node = doc.first_node("objects");
 
+	if (!node)
+	{
+		cout << "No objects found in input file." << endl;
+		return false;
+	}
 	for (xml_node<> *nd = node->first_node(); nd; nd = nd->next_sibling())
 	{
 		xml_attribute<> *attr = nd->first_attribute("type");
@@ -76,6 +95,11 @@ bool Scene::ParseInput(char* input, char* scratchPad, int spSize)
 
 	node = doc.first_node("materials");
 
+	if (!node)
+	{
+		cout << "No materials found in input file." << endl;
+		return false;
+	}
 	for (xml_node<> *nd = node->first_node(); nd; nd = nd->next_sibling())
 	{
 		xml_attribute<> *attr = nd->first_attribute("name");
@@ -85,6 +109,12 @@ bool Scene::ParseInput(char* input, char* scratchPad, int spSize)
 	}
 
 	node = doc.first_node("scene");
+	if (!node)
+	{
+		cout << "No scenes found in input file." << endl;
+		return false;
+	}
+
 	for (xml_node<> *nd = node->first_node(); nd; nd = nd->next_sibling())
 	{
 		if (strcmp(nd->name(), "inst") == 0)

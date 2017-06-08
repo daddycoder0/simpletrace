@@ -3,29 +3,41 @@
 
 #include "Objects.h"
 #include "Scene.h"
-
 using namespace std;
 
 char scene[] = "<?xml version='1.0' encoding='utf-8'?>"
-    "<objects>"
-        "<object type='simplemesh' name='plane'>"
-            "<verts>-1.0 0.0 -1.0,1.0 0.0 -1.0, 1.0 0.0 1.0, -1.0 0.0 1.0</verts>"
-            "<tris>0 1 2, 2 3 0</tris>"
-        "</object>"
-    "</objects>"
-	"<scene>"
-		"<inst obj='plane'>"
-			"<posrot>"
-				"1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0"
-			"</posrot>"
-		"</inst>"
-	"</scene>";
+"<objects>"
+"<object type='simplemesh' name='plane'>"
+"<verts>-1.0 0.0 -1.0,1.0 0.0 -1.0, 1.0 0.0 1.0, -1.0 0.0 1.0</verts>"
+"<tris>0 1 2, 2 3 0</tris>"
+"</object>"
+"</objects>"
+"<materials>"
+	"<material name='brightyellow'>"
+		"<colour>1.0 1.0 0.3</colour>"
+	"</material>"
+  "</materials>"
+"<scene>"
+	"<inst obj='plane' type='simplemesh' material='brightyellow'>"
+		"<posrot>"
+			"1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0"
+		"</posrot>"
+	"</inst>"
+	"<inst type = 'camera' fov = '55.0' nearz = '0.1'>"
+		"<eye>3.0 0.5 0.0</eye>"
+		"<target>0.0 0.0 0.0</target>"
+	"</inst>"
+
+	"<ambient>"
+		"<colour>0.25 0.25 0.25</colour>"
+	"</ambient>"
+"</scene>";
 
 int main(int argc, char * argv[])
 {
 	int ret = 0;
 	char* fileData = NULL;
-	ifstream file(argc > 1 ? argv[1] : "../scene.xml", ios::in|ios::binary|ios::ate);
+	ifstream file(argc > 1 ? argv[1] : "../../scene.xml", ios::in|ios::binary|ios::ate);
 
 	if (file.is_open())
 	{
