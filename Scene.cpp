@@ -328,9 +328,15 @@ bool Scene::Render(int width, int height, int superSample, int startX, int endX,
 		outImage.SaveImage(fileName);
 
 		time (&end);
-		double dif = difftime (end,start);
-		cout << "View " << i << " took " << dif << " second(s)." << endl;
-	
+		unsigned int dif = (unsigned int)difftime (end,start);
+		if (dif >= 60)
+		{
+			cout << "View " << i << " took " << dif / 60 << " minute(s) " << dif % 60 << " second(s)." << endl;
+		}
+		else
+		{
+			cout << "View " << i << " took " << dif << " second(s)." << endl;
+		}
 	}
 	
 	return true;
