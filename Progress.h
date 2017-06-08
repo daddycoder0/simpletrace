@@ -28,6 +28,7 @@ class Progress
 			{
 				cout << endl << endl;
 			}
+			cout << flush;
 		}
 	private:
 

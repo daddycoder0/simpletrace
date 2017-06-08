@@ -37,7 +37,7 @@ int main(int argc, char * argv[])
 {
 	int ret = 0;
 	char* fileData = NULL;
-	ifstream file(argc > 1 ? argv[1] : "../../scene.xml", ios::in|ios::binary|ios::ate);
+	ifstream file(argc > 1 ? argv[1] : "../scene.xml", ios::in|ios::binary|ios::ate);
 
 	if (file.is_open())
 	{
