@@ -329,7 +329,7 @@ bool Scene::Render(int width, int height, int superSample, int startX, int endX,
 
 		time (&end);
 		double dif = difftime (end,start);
-		cout << "View " << i << " took " <<  setprecision(2) << dif << " second(s)." << endl;
+		cout << "View " << i << " took " << dif << " second(s)." << endl;
 	
 	}
 	
