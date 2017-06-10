@@ -45,7 +45,14 @@ bool Scene::ParseInput(char* input, char* scratchPad, int spSize)
 		return false;
 	}
 
-	xml_node<> *node = doc.first_node("objects");
+	xml_node<> *root = doc.first_node("root");
+	if (!root)
+	{
+		cout << "No root node found in input file." << endl;
+		return false;
+	}
+	
+	xml_node<> *node = root->first_node("objects");
 
 	if (!node)
 	{
@@ -96,7 +103,7 @@ bool Scene::ParseInput(char* input, char* scratchPad, int spSize)
 		}
 	}
 
-	node = doc.first_node("materials");
+	node = root->first_node("materials");
 
 	if (!node)
 	{
@@ -111,7 +118,7 @@ bool Scene::ParseInput(char* input, char* scratchPad, int spSize)
 		m_materials.push_back(m);
 	}
 
-	node = doc.first_node("scene");
+	node = root->first_node("scene");
 	if (!node)
 	{
 		cout << "No scenes found in input file." << endl;
