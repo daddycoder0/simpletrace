@@ -53,6 +53,6 @@ I'm only typically rendering one image at a time (although multiple cameras can 
 
 It would be nice to add support for more sophisticated scenes - perhaps loading models straight from 3DS or FBX files (and all the texturing desirable with that also). Of course more geometry means more CPU work, but perhaps the increased complexity could be offset by some spatial partitioning to speed up the tracing.
 
-I think that's part of the fun of ray tracing - there are lots of little things that can be done as quick projects - reflections/refraction, soft shadows, animation, better illumination, parametric surfaces, etc. etc.
+I think that's part of the fun of ray tracing - there are lots of little things that can be done as quick projects -~~reflections~~/refraction, ~~soft shadows~~, animation, better illumination, parametric surfaces, etc. etc.
 
 There just isn't enough hours in the day :)
