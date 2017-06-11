@@ -15,7 +15,7 @@ float ObjectInstance::RayIntersects(Vector3& start, Vector3& dir, unsigned int& 
 	return -1.f;
 }
 
-void ObjectInstance::GetColourForIntersection(Vector3& start, Vector3& dir, float t, Instance* inst, unsigned int triangleIndex, Vector3& colOut, Vector3& ambientLight, vector<Instance*>* lights, Scene& scene)
+void ObjectInstance::GetColourForIntersection(Vector3& start, Vector3& dir, float t, Instance* inst, unsigned int triangleIndex, Vector3& colOut, Vector3& ambientLight, vector<LightInstance*>* lights, Scene& scene)
 {
 	if (m_object)
 	{
@@ -88,4 +88,40 @@ void CameraInstance::GetRayForPixel(float xRatio, float yRatio, Vector3& start, 
 	Vector3 camDir(dir);
 	start = camDir.Mul(camDir, m_nearZ);
 	start = start + camPos;
+}
+
+void LightInstance::GenerateSamplePoints(int numSamples)
+{
+	if (m_object)
+	{
+		Vector3 sp;
+		if (numSamples > 0)
+		{
+			for (int i = 0;i < numSamples;i++)
+			{
+				if (m_object->GetRandomPointOnSurface(sp))
+				{
+					m_samplePoints.push_back(m_posrot.Transform(sp));	// not very animation friendly, worry about that later (faster than transforming every time we use it for now)
+				}
+				else
+				{
+					return;
+				}
+			}
+		}
+		else
+		{ 
+			m_samplePoints.push_back(m_posrot.Pos());
+		}
+	}
+}
+
+bool LightInstance::GetSamplePoint(unsigned int sample, Vector3& samplePosition)
+{
+	if (sample >= 0 && sample < m_samplePoints.size())
+	{
+		samplePosition = m_samplePoints[sample];
+		return true;
+	}
+	return false;
 }

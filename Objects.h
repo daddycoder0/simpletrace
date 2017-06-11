@@ -14,6 +14,7 @@ using namespace std;
 #define OBJECT_MAX_NAMELENGTH 32
 
 class Instance;
+class LightInstance;
 class Material;
 class Scene;
 
@@ -31,8 +32,9 @@ class Object
 			bool Is						(char* name)							{return strcmp(m_objectName, name) == 0;}
 			virtual float RayIntersects	(Vector3& start, Vector3& dir, unsigned int& triangleIndex, bool bfcull = true) = 0;
 			virtual void GetColourForIntersection(	Vector3& start, Vector3& dir, float t, Instance* inst, unsigned int triangleIndex, Vector3& colOut, 
-													Vector3& ambientLight, vector<Instance*>* lights, Material* material, Matrix4& transform, Scene& scene);
+													Vector3& ambientLight, vector<LightInstance*>* lights, Material* material, Matrix4& transform, Scene& scene);
 			virtual void GetIntersectionNormal(Vector3& start, Vector3& dir, Vector3& normal, unsigned int triangleIndex, float t, Matrix4& transform)=0;
+			virtual bool GetRandomPointOnSurface(Vector3& position) = 0;
 
 	protected:
 		char	m_objectName[OBJECT_MAX_NAMELENGTH];
@@ -50,7 +52,8 @@ class Sphere : public Object
 		bool	Parse			(xml_node<>* node, char* sp, int spSize);
 		float	RayIntersects	(Vector3& start, Vector3& dir, unsigned int& triangleIndex, bool bfcull = true);
 		void	GetIntersectionNormal(Vector3& start, Vector3& dir, Vector3& normal, unsigned int triangleIndex, float t, Matrix4& transform);
-		
+		bool	GetRandomPointOnSurface(Vector3& position);
+
 	private:
 	
 		float	m_radius;
@@ -81,7 +84,8 @@ class SimpleMesh : public Object
 		bool	Parse			(xml_node<>* node, char* sp, int spSize);
 		float	RayIntersects	(Vector3& start, Vector3& dir, unsigned int& triangleIndex, bool bfcull = true);
 		void 	GetIntersectionNormal(Vector3& start, Vector3& dir, Vector3& normal, unsigned int triangleIndex, float t, Matrix4& transform);
-		
+		bool	GetRandomPointOnSurface(Vector3& position);
+
 	private:
 
 		void SetNumVerts(unsigned int num)

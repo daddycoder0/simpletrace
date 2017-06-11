@@ -85,7 +85,7 @@ class Scene
 	private:
 
 		vector<Object*>				m_objects;
-		vector<Instance*>			m_lights;
+		vector<LightInstance*>		m_lights;
 		vector<Instance*>			m_instances;
 		vector<CameraInstance*>		m_cameras;
 		vector<Material*>			m_materials;

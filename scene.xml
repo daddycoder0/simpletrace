@@ -49,7 +49,7 @@
 		</object>
 	</objects>
 	<scene>
-		<inst type='simplemesh' obj='squarelight' material='bright_light' light='diffuse'>
+		<inst type='simplemesh' obj='squarelight' material='bright_light' light='diffuse' samples="50">
 			<matrix>
 				<rot>0.0 0.0 180.0</rot>
 				<pos>0.0 0.99 0.0</pos>

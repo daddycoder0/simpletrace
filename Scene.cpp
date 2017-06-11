@@ -158,19 +158,30 @@ bool Scene::ParseInput(char* input, char* scratchPad, int spSize)
 							Material* mat = ma ? GetMaterialByName(ma->value()) : NULL;
 							Matrix4 m;
 							m.Parse(nd->first_node("matrix"), scratchPad, spSize);
-							ObjectInstance* oi = new ObjectInstance(m, o);
-							oi->SetMaterial(mat);
-							m_instances.push_back(oi);
+							ObjectInstance* oi = NULL;
 
 							if (nd->first_attribute("light"))
 							{
-								m_lights.push_back(oi);
+								oi = new LightInstance(m, o);
+								xml_attribute<>* samples = nd->first_attribute("samples");
+								if (samples)
+								{
+									int numSamples = atoi(samples->value());
+									((LightInstance*)oi)->GenerateSamplePoints(numSamples);
+								}
+								else
+								{
+									((LightInstance*)oi)->GenerateSamplePoints(0);
+								}
+								m_lights.push_back((LightInstance*)oi);
 							}
 							else
 							{
-								// not drawing lights for now (todo)
-								//m_instances.push_back(oi);
+								oi = new ObjectInstance(m, o);
 							}
+							oi->SetMaterial(mat);
+							m_instances.push_back(oi);
+
 						}
 					}
 				}

@@ -68,7 +68,7 @@ int main(int argc, char * argv[])
 
 	int width = argc > 3 ? atoi(argv[2]) : 800;
 	int height = argc > 3 ? atoi(argv[3]) : 600;
-	int superSample = argc > 4 ? atoi(argv[4]) : 4;
+	int superSample = argc > 4 ? atoi(argv[4]) : 2;
 
 	s.Render(width, height, superSample);
 

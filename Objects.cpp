@@ -1,6 +1,6 @@
-#include <iostream>
+﻿#include <iostream>
 #include <string.h>
-
+#include <math.h>
 
 #include "Instance.h"
 #include "Material.h"
@@ -51,6 +51,13 @@ void Sphere::GetIntersectionNormal(Vector3& start, Vector3& dir, Vector3& normal
 	normal.Normalize();
 }
 
+bool Sphere::GetRandomPointOnSurface(Vector3& position)
+{
+	Vector3 randomVector((float)rand(), (float)rand(), (float)rand());
+	randomVector.Normalize();
+	position.Mul(randomVector, m_radius);
+	return true;
+}
 
 bool SimpleMesh::Parse(xml_node<>* node, char* spad, int spSize)
 {
@@ -250,7 +257,33 @@ void SimpleMesh::GetIntersectionNormal(Vector3& start, Vector3& dir, Vector3& no
 	normal.Normalize();
 }
 
-void Object::GetColourForIntersection(Vector3& start, Vector3& dir, float t, Instance* inst, unsigned int triangleIndex, Vector3& colOut, Vector3& ambientLight, vector<Instance*>* lights, Material* material, Matrix4& transform, Scene& scene)
+bool SimpleMesh::GetRandomPointOnSurface(Vector3& position)
+{
+	// not accounting for different size polygons, not too important for now.
+	// select a poly at random
+	int t = 3 * (rand() % m_numTriangles);
+	Vector3 A = m_vertexList[m_triangleList[t]].Pos();
+	Vector3 B = m_vertexList[m_triangleList[t+1]].Pos();
+	Vector3 C = m_vertexList[m_triangleList[t+2]].Pos();
+
+	// find area in triangle (http://www.cs.princeton.edu/~funk/tog02.pdf)
+	real r1 = real(rand()) / real(RAND_MAX);
+	real r2 = real(rand()) / real(RAND_MAX);
+
+	real a = (1.f-sqrtf(r1));
+	real b = (sqrtf(r1)*(1.f - r2));
+	real c = (r2 * sqrtf(r1));
+	A.Mul(A, a);
+	B.Mul(B, b);
+	C.Mul(C, c);
+	
+	position.Add(A, B);
+	position.Add(position, C);
+	return true;
+}
+
+
+void Object::GetColourForIntersection(Vector3& start, Vector3& dir, float t, Instance* inst, unsigned int triangleIndex, Vector3& colOut, Vector3& ambientLight, vector<LightInstance*>* lights, Material* material, Matrix4& transform, Scene& scene)
 {
 	Vector3 matCol(1.f, 0.f, 1.f);
 	Vector3 finalCol;
@@ -267,29 +300,48 @@ void Object::GetColourForIntersection(Vector3& start, Vector3& dir, float t, Ins
 	finalCol = matCol * ambientLight;
 	Vector3 normal;
 	GetIntersectionNormal(start, dir, normal, triangleIndex, t, transform);
-
+	
 	for (unsigned int i=0;lights && i<lights->size(); i++)
 	{
 		Vector3 lightPos, vecToLight;
-		lights->at(i)->GetPos(lightPos);
+		LightInstance* li = lights->at(i);
+		li->GetPos(lightPos);
+
+		Instance* shadowInstance = NULL;
+		unsigned int tIndex = 0;
+
+		// count how many samples are valid (lots of scope for optimization here)
+		unsigned int numHits = 0;
+		for (unsigned int s = 0;s < li->GetNumSamples();s++)
+		{
+			Vector3 samplePos;
+			li->GetSamplePoint(s, samplePos);
+			vecToLight = vecToLight.Sub(samplePos, intersect);
+			float distToLight = vecToLight.Length();
+			vecToLight.Normalize();
+			intersection = intersection.Add(intersect, vecToLight * 0.001f);	// make sure we don't hit ourselves.
+
+			float shadowT = inst == li ? -1.f : scene.GetNearestIntersection(intersection, vecToLight, shadowInstance, tIndex, false);
+			if (shadowT < 0.f || shadowT > distToLight || shadowInstance == li)
+			{
+				numHits++;
+			}
+		}
+
+		float lightScale = (float)numHits / (float)li->GetNumSamples();
 
 		vecToLight = vecToLight.Sub(lightPos, intersect);
 		float distToLight = vecToLight.Length();
 		vecToLight.Normalize();
 
-		Instance* shadowInstance = NULL;
-		unsigned int tIndex = 0;
-		intersection = intersection.Add(intersect, vecToLight * 0.001f);	// make sure we don't hit ourselves.
-
-		float shadowT = inst == lights->at(i) ? -1.f : scene.GetNearestIntersection(intersection, vecToLight, shadowInstance, tIndex, false);
-		
-		if (shadowT < 0.f || shadowT > distToLight || shadowInstance == lights->at(i))
+		if (lightScale > 0.f)
 		{
-			float lightDot = inst == lights->at(i) ? 2.f : DotProduct(normal, vecToLight);
+			float lightDot = inst == li ? 2.f : DotProduct(normal, vecToLight);
 			if (lightDot > 0.f)
 			{
+				lightDot *= lightScale;	// factor for soft shadows
 				Vector3 lightCol(1.f, 1.f, 1.f);
-				Material* lightMat = lights->at(i)->GetMaterial();
+				Material* lightMat = li->GetMaterial();
 				if (lightMat)
 				{
 					lightMat->GetColour(lightCol);	
