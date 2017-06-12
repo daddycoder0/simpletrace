@@ -320,7 +320,7 @@ void Object::GetColourForIntersection(Vector3& start, Vector3& dir, float t, Ins
 			vecToLight.Normalize();
 			intersection = intersection.Add(intersect, vecToLight * 0.0001f);	// make sure we don't hit ourselves.
 
-			float shadowT = inst == li ? -1.f : scene.GetNearestIntersection(intersection, vecToLight, shadowInstance, tIndex, true);
+			float shadowT = inst == li ? -1.f : scene.GetNearestIntersection(intersection, vecToLight, shadowInstance, tIndex, false);
 			if (shadowT < 0.f || shadowT > distToLight || shadowInstance == li)
 			{
 				numHits++;
