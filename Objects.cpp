@@ -254,7 +254,6 @@ void SimpleMesh::GetIntersectionNormal(Vector3& start, Vector3& dir, Vector3& no
 	Matrix4 trans = transform;
 	trans.SetPos(0.f, 0.f, 0.f);
 	normal = trans.Transform(m_faceNormals[triangleIndex]);
-	normal.Normalize();
 }
 
 bool SimpleMesh::GetRandomPointOnSurface(Vector3& position)
@@ -319,9 +318,9 @@ void Object::GetColourForIntersection(Vector3& start, Vector3& dir, float t, Ins
 			vecToLight = vecToLight.Sub(samplePos, intersect);
 			float distToLight = vecToLight.Length();
 			vecToLight.Normalize();
-			intersection = intersection.Add(intersect, vecToLight * 0.001f);	// make sure we don't hit ourselves.
+			intersection = intersection.Add(intersect, vecToLight * 0.0001f);	// make sure we don't hit ourselves.
 
-			float shadowT = inst == li ? -1.f : scene.GetNearestIntersection(intersection, vecToLight, shadowInstance, tIndex, false);
+			float shadowT = inst == li ? -1.f : scene.GetNearestIntersection(intersection, vecToLight, shadowInstance, tIndex, true);
 			if (shadowT < 0.f || shadowT > distToLight || shadowInstance == li)
 			{
 				numHits++;
