@@ -16,7 +16,7 @@ bool Sphere::Parse(xml_node<>* node, char* spad, int spSize)
 	xml_node<>* n = node->first_node("radius");
 	if (n)
 	{
-		snprintf(spad, spSize, n->value());
+		snprintf(spad, spSize, "%s", n->value());
 		m_radius = (float)atof(spad);
 	}
 
@@ -72,7 +72,7 @@ bool SimpleMesh::Parse(xml_node<>* node, char* spad, int spSize)
 			cout << "Object vert list too big for scratch pad: " << m_objectName << endl;
 			return false;	
 		}
-		snprintf(spad, spSize, n->value());
+		snprintf(spad, spSize, "%s", n->value());
 		char* c = strtk(spad, &context);
 
 		while (c != NULL)
@@ -90,7 +90,7 @@ bool SimpleMesh::Parse(xml_node<>* node, char* spad, int spSize)
 		SetNumVerts(numElements/3);
 
 		numElements = 0;
-		snprintf(spad, spSize, n->value());
+		snprintf(spad, spSize, "%s", n->value());
 		context = NULL;
 		char* x = strtk(spad, &context);
 		char* y = strtk(NULL, &context);
@@ -123,7 +123,7 @@ bool SimpleMesh::Parse(xml_node<>* node, char* spad, int spSize)
 			return false;	
 		}
 		numElements = 0;
-		snprintf(spad, spSize, n->value());
+		snprintf(spad, spSize, "%s", n->value());
 		char* c = strtk(spad, &context);
 
 		while (c != NULL)
@@ -141,7 +141,7 @@ bool SimpleMesh::Parse(xml_node<>* node, char* spad, int spSize)
 		SetNumTris(numElements/3);
 		context = NULL;
 		numElements = 0;
-		snprintf(spad, spSize, n->value());
+		snprintf(spad, spSize, "%s", n->value());
 		char* aa = strtk(spad, &context);
 		char* bb = strtk(NULL, &context);
 		char* cc = strtk(NULL, &context);

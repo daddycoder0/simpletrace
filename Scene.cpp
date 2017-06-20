@@ -238,7 +238,7 @@ Material* Scene::GetMaterialByName(char* matName)
 char* Scene::LogInfo()
 {
 	static char sceneInfo[512];
-	snprintf(sceneInfo, 512, "\tNum objects:\t%d\n\tNum instances:\t%d\n\tNum cameras:\t%d\n\tNum materials:\t%d\n", m_objects.size(), m_instances.size(), m_cameras.size(), m_materials.size());
+	snprintf(sceneInfo, 512, "\tNum objects:\t%d\n\tNum instances:\t%d\n\tNum cameras:\t%d\n\tNum materials:\t%d\n", (int)m_objects.size(), (int)m_instances.size(), (int)m_cameras.size(), (int)m_materials.size());
 	return sceneInfo;
 }
 

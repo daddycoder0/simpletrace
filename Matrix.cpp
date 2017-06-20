@@ -29,7 +29,7 @@ bool Vector3::Parse(rapidxml::xml_node<>* n, char* sp, int spSize)
 		char* context = NULL;
 		unsigned int numElements = 0;
 
-		snprintf(sp, spSize, n->value());
+		snprintf(sp, spSize, "%s", n->value());
 		char* c = strtk(sp, &context);
 
 		while (c != NULL)
@@ -48,7 +48,7 @@ bool Vector3::Parse(rapidxml::xml_node<>* n, char* sp, int spSize)
 			return false;
 		}
 		context = NULL;
-		snprintf(sp, spSize, n->value());
+		snprintf(sp, spSize, "%s", n->value());
 
 		char* x = strtk(sp, &context);
 		char* y = strtk(NULL, &context);
@@ -104,7 +104,7 @@ bool Matrix4::Parse(xml_node<>* n, char* sp, int spSize)
 				SetToIdentity();
 				return false;	
 			}
-			snprintf(sp, spSize, n->value());
+			snprintf(sp, spSize, "%s", n->value());
 			char* c = strtk(sp, &context);
 
 			while (c != NULL)
@@ -123,7 +123,7 @@ bool Matrix4::Parse(xml_node<>* n, char* sp, int spSize)
 				return false;
 			}
 			context = NULL;
-			snprintf(sp, spSize, n->value());
+			snprintf(sp, spSize, "%s", n->value());
 
 			c = strtk(sp, &context);
 			numElements = 0;
