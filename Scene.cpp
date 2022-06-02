@@ -342,7 +342,7 @@ bool Scene::Render(int width, int height, int superSample, int startX, int endX,
 		}
 
 		char fileName[64];
-		snprintf(fileName, 64, "camera%03d.bmp", i);
+		snprintf(fileName, 64, "camera%03d.jpg", i);
 		outImage.SaveImage(fileName);
 
 		time (&end);

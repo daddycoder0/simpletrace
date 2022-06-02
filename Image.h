@@ -8,7 +8,7 @@ class Image
 public:
 	Image(int w, int h, int bpp)
 	{
-		m_imageData = (char*)malloc(bpp * w * h);
+		m_imageData = (unsigned char*)malloc(bpp * w * h);
 		m_w = w;
 		m_h = h;
 		m_bpp = bpp;
@@ -22,10 +22,13 @@ public:
 	bool		SaveImage			(const char* outputName);
 
 private:
-	char*		m_imageData;
-	int			m_w;
-	int			m_h;
-	int			m_bpp;
+
+	void		WriteBitmap			();
+
+	unsigned char*		m_imageData;
+	int					m_w;
+	int					m_h;
+	int					m_bpp;
 };
 
 #endif
