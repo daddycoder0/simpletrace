@@ -6,7 +6,7 @@
 #include <string.h>
 #include "Matrix.h"
 #include "Vertex.h"
-#include "ThirdParty/rapidxml/rapidxml.hpp"
+#include "../ThirdParty/rapidxml/rapidxml.hpp"
 
 using namespace rapidxml;
 using namespace std;

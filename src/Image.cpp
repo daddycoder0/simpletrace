@@ -3,7 +3,7 @@
 #include <string.h>
 #include <filesystem> 
 #include "Image.h"
-#include "ThirdParty/toojpeg/toojpeg.h"
+#include "../ThirdParty/toojpeg/toojpeg.h"
 
 namespace fs = std::filesystem;
 

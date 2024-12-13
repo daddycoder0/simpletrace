@@ -3,7 +3,7 @@
 
 #include "Matrix.h"
 #include <string.h>
-#include "ThirdParty/rapidxml/rapidxml.hpp"
+#include "../ThirdParty/rapidxml/rapidxml.hpp"
 
 #define MATERIAL_MAX_NAMELENGTH 32
 using namespace rapidxml;

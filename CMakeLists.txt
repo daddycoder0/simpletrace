@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 2.6)
+cmake_minimum_required (VERSION 2.9)
 
 project (simpletrace)
 	find_package(Threads REQUIRED)
@@ -8,7 +8,7 @@ project (simpletrace)
 		set_property(TARGET simpletrace PROPERTY INTERFACE_COMPILE_OPTIONS "-pthread")
 	endif()
 
-	FILE(GLOB APPSRC "*.cpp" "*.h")
+	FILE(GLOB APPSRC "src/*.cpp" "src/*.h")
 	FILE(GLOB_RECURSE THIRDPARTY "ThirdParty/*.cpp" "ThirdParty/*.h")
 
 	add_executable(simpletrace  ${APPSRC} ${THIRDPARTY})

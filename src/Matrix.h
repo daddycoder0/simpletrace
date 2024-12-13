@@ -2,7 +2,7 @@
 #define _MY_MATRIX_H_
 
 #include <math.h>
-#include "ThirdParty/rapidxml/rapidxml.hpp"
+#include "../ThirdParty/rapidxml/rapidxml.hpp"
 
 #define EPSILON 0.0000000000000000001f
 #define DEG2RAD 0.0174532925199432957f

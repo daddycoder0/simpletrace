@@ -9,8 +9,8 @@
 	#include <unistd.h>
 	#define CPSleep(a) usleep(a*1000)
 #endif
-#include "ThirdParty/rapidxml/rapidxml.hpp"
-#include "ThirdParty/tinythread/tinythread.h"
+#include "../ThirdParty/rapidxml/rapidxml.hpp"
+#include "../ThirdParty/tinythread/tinythread.h"
 
 #include "Objects.h"
 #include "Image.h"
