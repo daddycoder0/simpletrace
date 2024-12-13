@@ -53,7 +53,7 @@ UPDATE: Basic realtime preview, which reads scene file direct from github [here]
 
 I'm only typically rendering one image at a time (although multiple cameras can be added to the scene file and it should render them all). However, it would be cool, in order to aid the generation of many images (perhaps for an animated camera path), or even just to divide the labour of a large/complex render, to have a basic master and agent services to allow basic render farming. Would be pretty trivial to implement.
 
-It would be nice to add support for more sophisticated scenes - perhaps loading models straight from 3DS or FBX files (and all the texturing desirable with that also). Of course more geometry means more CPU work, but perhaps the increased complexity could be offset by some spatial partitioning to speed up the traci
+It would be nice to add support for more sophisticated scenes - perhaps loading models straight from 3DS or FBX files (and all the texturing desirable with that also). Of course more geometry means more CPU work, but perhaps the increased complexity could be offset by some spatial partitioning to speed up the tracing.
 
 I think that's part of the fun of ray tracing - there are lots of little things that can be done as quick projects -~~reflections~~/refraction, ~~soft shadows~~, animation, better illumination, parametric surfaces, etc. etc.
 

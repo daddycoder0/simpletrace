@@ -9,5 +9,4 @@ simpletrace
 CMakeCache.txt
 *.cmake
 output/
-settings.json
-tasks.json
+.vscode/
