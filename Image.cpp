@@ -1,8 +1,11 @@
 #include <iostream>
 #include <fstream>
 #include <string.h>
+#include <filesystem> 
 #include "Image.h"
 #include "ThirdParty/toojpeg/toojpeg.h"
+
+namespace fs = std::filesystem;
 
 using namespace std;
 
@@ -89,6 +92,23 @@ bool Image::SaveImage(const char* outputName)
 {
 	if (m_imageData)
 	{
+		// Extract the directory path from the output file name
+		fs::path dirPath = fs::path(outputName).parent_path();
+
+
+    	cout << "Current working directory: " << fs::current_path() << endl;
+
+		// Check if the directory exists
+		if (!fs::exists(dirPath)) {
+			// If the directory doesn't exist, create it
+			if (fs::create_directories(dirPath)) {
+				cout << "Directory created: " << dirPath << endl;
+			} else {
+				cerr << "Failed to create directory: " << dirPath << endl;
+				return 1; // Return with error code
+			}
+		}
+
 		outFile.open (outputName, ios::out | ios::trunc | ios::binary);
 
 

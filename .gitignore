@@ -2,3 +2,12 @@
 build/
 *.log
 /.directory
+CMakeFiles/
+cmake_install.cmake_install
+Makefile
+simpletrace
+CMakeCache.txt
+*.cmake
+output/
+settings.json
+tasks.json
